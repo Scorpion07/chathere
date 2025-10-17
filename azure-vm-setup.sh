@@ -4,17 +4,17 @@ echo "🚀 Setting up ChatHere AI Chatbot on Azure VM..."
 
 # 1. Set Environment Variables
 echo "📝 Setting up environment variables..."
-export GOOGLE_API_KEY="AIzaSyDlF5EQw3U7RhjNLxQuEGSWxLy_1_aAAlk"
-export OPENAI_API_KEY="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"
+export GOOGLE_API_KEY="AIzaSyBAHdj_W0YNIXkRukr1NIOCvQz1t8gqr_o"
+export OPENAI_API_KEY="sk-proj-LdhPpUJ1oCJosgXZZ4AKvet-1BmPLbeUs-ezwdAgQ650pRW6z6aLFCwpYnZE-PI4dYQdfUHT7pT3BlbkFJqYfBORjY6MHQX24Qa7yU3iwodhgJ4yFvLYVqv"
 export DEEPSEEK_API_KEY="sk-f17076b986ab4849931449f1b78a211e"
-export ANTHROPIC_API_KEY="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"
+export ANTHROPIC_API_KEY="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"
 
 # Make environment variables persistent
 echo "💾 Making environment variables persistent..."
-echo 'export GOOGLE_API_KEY="AIzaSyDlF5EQw3U7RhjNLxQuEGSWxLy_1_aAAlk"' >> ~/.bashrc
-echo 'export OPENAI_API_KEY="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"' >> ~/.bashrc
+echo 'export GOOGLE_API_KEY="AIzaSyBAHdj_W0YNIXkRukr1NIOCvQz1t8gqr_o"' >> ~/.bashrc
+echo 'export OPENAI_API_KEY="sk-proj-LdhPpUJ1oCJosgXZZ4AKvet-1BmPLbeUs-ezwdAgQ650pRW6z6aLFCwpYnZE-PI4dYQdfUHT7pT3BlbkFJqYfBORjY6MHQX24Qa7yU3iwodhgJ4yFvLYVqv"' >> ~/.bashrc
 echo 'export DEEPSEEK_API_KEY="sk-f17076b986ab4849931449f1b78a211e"' >> ~/.bashrc
-echo 'export ANTHROPIC_API_KEY="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"' >> ~/.bashrc
+echo 'export ANTHROPIC_API_KEY="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"' >> ~/.bashrc
 
 # Reload environment
 source ~/.bashrc
