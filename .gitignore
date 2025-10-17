@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.log
+*.pot
+
+# Virtual environments
+venv/
+backend/venv/
+.env
+*.env
+
+# Node.js
+node_modules/
+frontend/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build artifacts
+dist/
+build/
+frontend/dist/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE/editor
+.vscode/
+.idea/
+*.swp
+
+# Secret or config files
+config.json
+*.key
+*.pem
+*.crt
+
+# Cache
+*.cache/
+.cache/
+.pytest_cache/
+__pycache__/
+
+# Others
+*.bak
+*.tmp
+*.log
