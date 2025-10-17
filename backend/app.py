@@ -1,9 +1,13 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
+import json, os, random, time, sys
+
+# Add the backend directory to the Python path
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from routes.chat import chat_bp
 from routes.stats import stats_bp
 from db.database import init_stats
-import json, os, random, time
 
 # --- Initialize stats DB on startup ---
 init_stats()

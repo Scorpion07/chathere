@@ -35,5 +35,8 @@ npm install
 npm run build
 cd ..
 
-# 10. Start the application
-gunicorn -c gunicorn.conf.py wsgi:app
+# 10. Start the application (Option 1: Simple Python)
+python start-app.py
+
+# OR Option 2: With Gunicorn (if the above doesn't work)
+# gunicorn -c gunicorn.conf.py wsgi:app
