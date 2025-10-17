@@ -19,25 +19,20 @@ echo 'export ANTHROPIC_API_KEY="sk-ant-api03-RvUiWRiwbnTVzIWg2t5k5U5yunpTHP9s9aU
 # Reload environment
 source ~/.bashrc
 
-# 2. Create and activate virtual environment
-echo "🐍 Creating Python virtual environment..."
-python3 -m venv chathere-env
-source chathere-env/bin/activate
-
-# 3. Upgrade pip in virtual environment
-echo "📦 Upgrading pip..."
-pip install --upgrade pip
-
-# 4. Install Python dependencies in virtual environment
-echo "📦 Installing Python dependencies..."
-pip install -r requirements-clean.txt
-
-# 5. Install system dependencies if needed
+# 2. Install system dependencies
 echo "🔧 Installing system dependencies..."
 sudo apt update
-sudo apt install -y python3-full python3-venv
+sudo apt install -y python3-full python3-pip
 
-# 6. Build frontend (if Node.js is available)
+# 3. Upgrade pip
+echo "📦 Upgrading pip..."
+pip3 install --upgrade pip
+
+# 4. Install Python dependencies globally
+echo "📦 Installing Python dependencies globally..."
+pip3 install --break-system-packages -r requirements-clean.txt
+
+# 5. Build frontend (if Node.js is available)
 if command -v npm &> /dev/null; then
     echo "🏗️ Building frontend..."
     cd frontend
@@ -48,6 +43,6 @@ else
     echo "⚠️ Node.js not found, skipping frontend build"
 fi
 
-# 7. Start the application
-echo "🚀 Starting application with Gunicorn..."
-gunicorn -c gunicorn.conf.py wsgi:app
+# 6. Start the application
+echo "🚀 Starting application..."
+python3 start-app.py
