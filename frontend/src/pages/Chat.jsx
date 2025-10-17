@@ -183,7 +183,6 @@ export default function ChatApp() {
             <option value="gpt-4o-mini">🧠 GPT-4o Mini</option>
             <option value="gpt-4.1">⚡ GPT-4.1</option>
             <option value="deepseek-r1">🤖 DeepSeek R1</option>
-            <option value="claude-3-opus">🚀 Claude-3 Opus</option>
           </select>
         </div>
       </header>
