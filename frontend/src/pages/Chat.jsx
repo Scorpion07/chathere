@@ -24,30 +24,36 @@ export default function ChatApp() {
     else document.body.classList.remove("dark");
   }, [darkMode]);
 
-  // Check backend connection once on load
+  // Check backend connection once on load and periodically
   useEffect(() => {
     async function checkConnection() {
       try {
-	const API_BASE = import.meta.env.VITE_API_URL;
-        const response = await fetch(`${API_BASE}/chat`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    message: userMessage,
-    model: selectedModel,
-  }),
-});
+        // Use the same URL as sendToBackend function
+        const response = await fetch('http://20.246.104.157/chat', {
+          method: "GET", // Use GET for health check
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
-
-        if (res.ok) setConnectionStatus("online");
-        else setConnectionStatus("offline");
-      } catch {
+        if (response.ok) {
+          setConnectionStatus("online");
+        } else {
+          setConnectionStatus("offline");
+        }
+      } catch (error) {
+        console.error("Connection check failed:", error);
         setConnectionStatus("offline");
       }
     }
+    
+    // Initial check
     checkConnection();
+    
+    // Periodic check every 30 seconds
+    const interval = setInterval(checkConnection, 30000);
+    
+    return () => clearInterval(interval);
   }, []);
 
   // Voice recognition
@@ -99,9 +105,13 @@ export default function ChatApp() {
       if (!text) throw new Error('Empty response body');
       const data = JSON.parse(text);
       if (!data.reply) throw new Error(data.error || 'Empty reply');
+      
+      // If we get a successful response, mark as online
+      setConnectionStatus("online");
       return data.reply;
     } catch (error) {
       console.error('Backend error:', error);
+      setConnectionStatus("offline");
       return '⚠️ Unable to reach AI server.';
     }
   }
