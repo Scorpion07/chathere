@@ -74,7 +74,18 @@ def chat():
         # --- Handle null or missing keys ---
         # 🔐 fallback: load API key from environment if not set in config.json
         if not api_key:
-            api_key = os.getenv(f"{provider.upper()}_API_KEY")
+            # Map provider names to environment variable names
+            env_var_map = {
+                'google': 'GOOGLE_API_KEY',
+                'openai': 'OPENAI_API_KEY', 
+                'deepseek': 'DEEPSEEK_API_KEY',
+                'anthropic': 'ANTHROPIC_API_KEY'
+            }
+            env_var = env_var_map.get(provider, f"{provider.upper()}_API_KEY")
+            api_key = os.getenv(env_var)
+            
+        if not api_key:
+            return jsonify({"error": f"API key not found for {provider}. Set {env_var_map.get(provider, f'{provider.upper()}_API_KEY')} environment variable"}), 500
 
         
 
