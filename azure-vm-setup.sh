@@ -2,19 +2,6 @@
 
 echo "🚀 Setting up ChatHere AI Chatbot on Azure VM..."
 
-# 1. Set Environment Variables
-echo "📝 Setting up environment variables..."
-export GOOGLE_API_KEY="AIzaSyBAHdj_W0YNIXkRukr1NIOCvQz1t8gqr_o"
-export OPENAI_API_KEY="sk-proj-LdhPpUJ1oCJosgXZZ4AKvet-1BmPLbeUs-ezwdAgQ650pRW6z6aLFCwpYnZE-PI4dYQdfUHT7pT3BlbkFJqYfBORjY6MHQX24Qa7yU3iwodhgJ4yFvLYVqv"
-export DEEPSEEK_API_KEY="sk-f17076b986ab4849931449f1b78a211e"
-export ANTHROPIC_API_KEY="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"
-
-# Make environment variables persistent
-echo "💾 Making environment variables persistent..."
-echo 'export GOOGLE_API_KEY="AIzaSyBAHdj_W0YNIXkRukr1NIOCvQz1t8gqr_o"' >> ~/.bashrc
-echo 'export OPENAI_API_KEY="sk-proj-LdhPpUJ1oCJosgXZZ4AKvet-1BmPLbeUs-ezwdAgQ650pRW6z6aLFCwpYnZE-PI4dYQdfUHT7pT3BlbkFJqYfBORjY6MHQX24Qa7yU3iwodhgJ4yFvLYVqv"' >> ~/.bashrc
-echo 'export DEEPSEEK_API_KEY="sk-f17076b986ab4849931449f1b78a211e"' >> ~/.bashrc
-echo 'export ANTHROPIC_API_KEY="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"' >> ~/.bashrc
 
 # Reload environment
 source ~/.bashrc
