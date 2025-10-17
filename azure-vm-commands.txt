@@ -1,0 +1,39 @@
+# Azure VM Setup Commands (Copy and paste one by one)
+
+# 1. Set Environment Variables
+export GOOGLE_API_KEY="AIzaSyDlF5EQw3U7RhjNLxQuEGSWxLy_1_aAAlk"
+export OPENAI_API_KEY="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"
+export DEEPSEEK_API_KEY="sk-f17076b986ab4849931449f1b78a211e"
+
+# 2. Make environment variables persistent
+echo 'export GOOGLE_API_KEY="AIzaSyDlF5EQw3U7RhjNLxQuEGSWxLy_1_aAAlk"' >> ~/.bashrc
+echo 'export OPENAI_API_KEY="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"' >> ~/.bashrc
+echo 'export DEEPSEEK_API_KEY="sk-f17076b986ab4849931449f1b78a211e"' >> ~/.bashrc
+
+# 3. Reload environment
+source ~/.bashrc
+
+# 4. Install system dependencies
+sudo apt update
+sudo apt install -y python3-full python3-venv
+
+# 5. Create virtual environment
+python3 -m venv chathere-env
+
+# 6. Activate virtual environment
+source chathere-env/bin/activate
+
+# 7. Upgrade pip
+pip install --upgrade pip
+
+# 8. Install Python dependencies
+pip install -r requirements-clean.txt
+
+# 9. Build frontend (if Node.js is installed)
+cd frontend
+npm install
+npm run build
+cd ..
+
+# 10. Start the application
+gunicorn -c gunicorn.conf.py wsgi:app
