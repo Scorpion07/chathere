@@ -28,7 +28,19 @@ export default function ChatApp() {
   useEffect(() => {
     async function checkConnection() {
       try {
-        const res = await fetch("http://localhost:5000/ping");
+	const API_BASE = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${API_BASE}/chat`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    message: userMessage,
+    model: selectedModel,
+  }),
+});
+
+
         if (res.ok) setConnectionStatus("online");
         else setConnectionStatus("offline");
       } catch {
@@ -75,7 +87,7 @@ export default function ChatApp() {
   // Send message to backend
   async function sendToBackend(message, model) {
     try {
-      const response = await fetch('http://localhost:5000/chat', {
+      const response = await fetch('http://20.246.104.157/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message, model }),

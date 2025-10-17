@@ -39,8 +39,14 @@ def log_chat(user_id, provider, model, message, reply, latency):
 
 
 # --- Main Chat Route ---
-@chat_bp.route('/chat', methods=['POST'])
+@chat_bp.route('/chat', methods=['POST','GET'])
 def chat():
+    # ✅ Allow simple GET requests for debugging
+    if request.method == 'GET':
+        return jsonify({
+            "status": "ok",
+            "message": "Chat endpoint is live! Use POST to send messages."
+        })
     try:
         start_time = time.time()
         data = request.get_json(force=True)
@@ -66,8 +72,11 @@ def chat():
         endpoint = model_info.get('endpoint')
 
         # --- Handle null or missing keys ---
-        if not api_key or api_key.strip() in ["", "null", "None"]:
-            return jsonify({"error": f"API key missing for {model}"}), 400
+        # 🔐 fallback: load API key from environment if not set in config.json
+        if not api_key:
+            api_key = os.getenv(f"{provider.upper()}_API_KEY")
+
+        
 
         # === Provider API Calls ===
 

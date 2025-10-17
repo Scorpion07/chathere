@@ -1,45 +1,35 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS
 from routes.chat import chat_bp
-import jsonify
-import json
-import os
 from routes.stats import stats_bp
 from db.database import init_stats
+import json, os, random, time
 
+# --- Initialize stats DB on startup ---
 init_stats()
+
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
+# --- Register Blueprints ---
 app.register_blueprint(stats_bp, url_prefix="/stats")
-app.register_blueprint(chat_bp)  # ✅ Don’t add url_prefix="/"
+app.register_blueprint(chat_bp)  # Do NOT use url_prefix="/", breaks routes
 
 
-def get_models():
-    """Return all available models that have valid API keys."""
-    cfg_path = os.path.join(os.path.dirname(__file__), '..', 'config.json')
-    cfg_path = os.path.normpath(cfg_path)
-    if not os.path.exists(cfg_path):
-        return jsonify({"error": "config.json not found"}), 500
-
-    with open(cfg_path, 'r', encoding='utf-8') as f:
-        config = json.load(f)
-
-    valid_models = {
-        name: info
-        for name, info in config.get('models', {}).items()
-        if info.get('api_key') not in [None, "", "null"]
-    }
-
-    return jsonify({"available_models": list(valid_models.keys())})
-
+# --- Health check endpoint ---
 @app.route("/ping")
 def ping():
-    return {"status": "ok"}, 200
+    return jsonify({"status": "ok"}), 200
 
+
+@app.route("/stats")
+def stats_alias():
+    from flask import redirect
+    return redirect("/admin-stats", code=302)
+
+# --- Admin dashboard mock stats (for front-end live view) ---
 @app.route("/admin-stats")
 def admin_stats():
-    import random, time
     data = {
         "totalBots": 5,
         "activeUsers": random.randint(1200, 1600),
@@ -54,5 +44,28 @@ def admin_stats():
     }
     return jsonify(data)
 
+
+# --- Dynamic model fetcher (for chat frontend dropdowns) ---
+@app.route("/models", methods=["GET"])
+def get_models():
+    """Return all available models that have valid API keys."""
+    cfg_path = os.path.join(os.path.dirname(__file__), "config.json")
+    cfg_path = os.path.normpath(cfg_path)
+    if not os.path.exists(cfg_path):
+        return jsonify({"error": "config.json not found"}), 500
+
+    with open(cfg_path, "r", encoding="utf-8") as f:
+        config = json.load(f)
+
+    valid_models = {
+        name: info
+        for name, info in config.get("models", {}).items()
+        if info.get("api_key") not in [None, "", "null"]
+    }
+
+    return jsonify({"available_models": list(valid_models.keys())})
+
+
+# --- Flask dev server entrypoint (Gunicorn will use app:app) ---
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
