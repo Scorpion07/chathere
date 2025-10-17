@@ -44,6 +44,20 @@ def get_stats():
     """, (ten_min_ago,))
     trend = [dict(row) for row in trend_rows]
 
+    # ---- Recent activity (last 5 minutes) ----
+    five_min_ago = (datetime.utcnow() - timedelta(minutes=5)).isoformat()
+    recent_activity = query_db("""
+        SELECT COUNT(*) AS count FROM chat_logs 
+        WHERE timestamp >= ?
+    """, (five_min_ago,), one=True)["count"]
+
+    # ---- Today's activity ----
+    today_start = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0).isoformat()
+    today_requests = query_db("""
+        SELECT COUNT(*) AS count FROM chat_logs 
+        WHERE timestamp >= ?
+    """, (today_start,), one=True)["count"]
+
     return jsonify({
         "active_users": unique_users,
         "total_requests": total_chats,
@@ -51,5 +65,8 @@ def get_stats():
         "models_active": active_models,
         "uptime_hours": uptime,
         "models": models,
-        "trend": trend
+        "trend": trend,
+        "recent_activity": recent_activity,
+        "today_requests": today_requests,
+        "timestamp": datetime.utcnow().isoformat()
     })

@@ -23,7 +23,7 @@ export default function HomePage() {
   useEffect(() => {
     async function fetchStats() {
       try {
-        const res = await fetch("http://localhost:5000/stats");
+        const res = await fetch("http://20.246.104.157/stats");
         const data = await res.json();
         setStats(data);
         setLoading(false);
