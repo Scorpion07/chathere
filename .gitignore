@@ -7,7 +7,9 @@ __pycache__/
 *.sqlite3
 *.log
 *.pot
-
+deploy-commands.txt
+azure-deployment.sh
+deploy-commands.txt
 # Virtual environments
 venv/
 backend/venv/
